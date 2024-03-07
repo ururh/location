@@ -10,29 +10,51 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       $(document).ready(function () {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          var latitude = position.coords.latitude;
-          var longitude = position.coords.longitude;
+        function getGeolocation() {
+          navigator.geolocation.getCurrentPosition(
+            function (position) {
+              var latitude = position.coords.latitude;
+              var longitude = position.coords.longitude;
 
-          $.ajax({
-            url:
-              "https://api.ipgeolocation.io/ipgeo?apiKey=49a089044e69427dbc82f35d8ea19dc6&latitude=" +
-              latitude +
-              "&longitude=" +
-              longitude,
-            success: function (data) {
-              var country = data.country_name;
+              $.ajax({
+                url:
+                  "https://api.ipgeolocation.io/ipgeo?apiKey=49a089044e69427dbc82f35d8ea19dc6&latitude=" +
+                  latitude +
+                  "&longitude=" +
+                  longitude,
+                success: function (data) {
+                  var country = data.country_name;
 
-              if (country == "Ukraine") {
-                $("#content").html(country);
-              } else if (country == "Germany") {
-                  $("#content").html(country);}
-              else {
-                $("#content").html(country);
-              }
+                  if (country == "Ukraine") {
+                    $("#content").html(country);
+                  } else {
+                    $("#content").html(country);
+                  }
+                },
+              });
             },
-          });
-        });
+            function (error) {
+              $("#content").html(
+                "**Ошибка определения геолокации. Попробуйте позже.**"
+              );
+            }
+          );
+        }
+
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(
+            getGeolocation,
+            function () {
+              $("#content").html(
+                "**Пожалуйста, разрешите доступ к геолокации, чтобы мы могли определить вашу страну.**"
+              );
+            }
+          );
+        } else {
+          $("#content").html(
+            "**Ваш браузер не поддерживает геолокацию.**"
+          );
+        }
       });
     </script>
   </body>
