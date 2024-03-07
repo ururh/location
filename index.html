@@ -3,14 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Тестовое задание</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Определение координат пользователя</title>
   </head>
-
   <body>
-    <script src="https://event.webinarjam.com/register/7y8y6sm/embed-bar?buttonText=Register&buttonBgColor=%2329b6f6&buttonBgOpacity=0.95&barBgColor=%23ffffff&barBgOpacity=1&type=bubble&formTemplate=2&formColor=1"></script>
-    <button>Локация</button>
+    <div id="content"></div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          var latitude = position.coords.latitude;
+          var longitude = position.coords.longitude;
 
-    <script src="index.js"></script>
+          $.ajax({
+            url:
+              "https://api.ipgeolocation.io/ipgeo?apiKey=49a089044e69427dbc82f35d8ea19dc6&latitude=" +
+              latitude +
+              "&longitude=" +
+              longitude,
+            success: function (data) {
+              var country = data.country_name;
+
+              if (country == "Ukraine") {
+                $("#content").html("**Украина**");
+              } else {
+                $("#content").html("**Не Украина**");
+              }
+            },
+          });
+        });
+      });
+    </script>
   </body>
 </html>
