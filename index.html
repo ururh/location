@@ -1,15 +1,29 @@
 <!DOCTYPE html>
 <html lang="ru">
+   
   <head>
+       
     <meta charset="UTF-8" />
+       
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+       
     <title>Определение координат пользователя</title>
+     
   </head>
+
   <body>
+        <button id="get-location">Определить геолокацию</button>    
     <div id="content"></div>
+       
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+       
     <script>
       $(document).ready(function () {
+        $("#get-location").click(function () {
+          getGeolocation();
+          $(this).hide(); // Скрыть кнопку после нажатия
+        });
+
         function getGeolocation() {
           navigator.geolocation.getCurrentPosition(
             function (position) {
@@ -25,7 +39,7 @@
                 success: function (data) {
                   var country = data.country_name;
 
-                  if (country == "Ukraine") {
+                  if (country == "Russia") {
                     $("#content").html(country);
                   } else {
                     $("#content").html(country);
@@ -35,27 +49,13 @@
             },
             function (error) {
               $("#content").html(
-                "**Ошибка определения геолокации. Попробуйте позже.**"
+                "**Пожалуйста, разрешите доступ к геолокации, чтобы мы могли отобразить подходящий для вас контент.**"
               );
             }
-          );
-        }
-
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            getGeolocation,
-            function () {
-              $("#content").html(
-                "**Пожалуйста, разрешите доступ к геолокации, чтобы мы могли определить вашу страну.**"
-              );
-            }
-          );
-        } else {
-          $("#content").html(
-            "**Ваш браузер не поддерживает геолокацию.**"
           );
         }
       });
     </script>
+     
   </body>
 </html>
