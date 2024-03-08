@@ -40,9 +40,11 @@
                   var country = data.country_name;
 
                   if (country == "Russia") {
-                    $("#content").html(country);
+                    $("#content").html(`Вы находитесь в ${country}`);
                   } else {
-                    $("#content").html(country);
+                    $("#content").html(
+                      `Вы находитесь в ${country}, но не в России`
+                    );
                   }
                 },
               });
